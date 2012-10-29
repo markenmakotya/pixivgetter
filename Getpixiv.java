@@ -18,7 +18,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-//test
+
 class Bass{
 	public static int num = 400;
 }
@@ -47,7 +47,7 @@ public class Getpixiv extends JFrame implements ActionListener {
 	      setTitle("‰æ‘œÌ‚é‚æ");
 	      setSize(530, 150);
 	      setVisible(true);
-
+	      System.out.println("hi");
 	   }
 	   public void actionPerformed(ActionEvent e) {
 		   name = name_text.getText();
@@ -94,21 +94,18 @@ class P_getter{
 
 		Find_one f = new Find_one();
 		one_id = f.one(user_url);
-		
+		System.out.println(one_id);
 		try {
 			 one_url = g.HTML_Getter(new URL("http://www.pixiv.net/member_illust.php?mode=medium&illust_id=" +one_id));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
 		Own_data o = new Own_data();
 		Find_next n = new Find_next();
 		new_id[0] = o.owndata(one_url);
 		int index = 1;
 		
-
 		String users_data = o.owndata(one_url).substring(0,o.owndata(one_url).lastIndexOf("/"));
-		
 		String rear_url = one_url;
 		String test;
 		while(true){
@@ -134,7 +131,7 @@ class P_getter{
 			if(!test.equals(users_data)) break;
 			new_id[index++] = o.owndata(rear_url);	
 		}
-		
+	      System.out.println("hi");
 
 		//‘‚«‚İŒÄ‚Ño‚µ
 		for(int i=0;i<index;i++){
@@ -172,9 +169,9 @@ class Find_one{
 	public String one(String url){
 		int index1 = 0, index2 = 0;
 		String id = null;
-		index1 = url.indexOf("member_illust.php?mode=medium&amp;illust_id=");
-		index1 = index1 + 44;
-		index2 = url.indexOf("\"", index1);
+		index1 = url.indexOf("member_illust.php?mode=medium&illust_id=");
+		index1 = index1 + 40;
+		index2 = url.indexOf("><img", index1)-1;
 		id = url.substring(index1, index2);
 		return id;
 	}
@@ -215,8 +212,11 @@ class Own_data{
 		index1 = url.indexOf("\"><img src=\"http://");
 		index1 = url.indexOf("\"><img src=\"http://",index1+1000);
 		index1 = index1 + 12;
+		System.out.println(index1);
 		index2 = url.indexOf("alt=", index1)-3;
+		System.out.println(index2);
 		id = url.substring(index1, index2+1);
+		System.out.println(id);
 		return id;
 	}
 }
@@ -236,7 +236,7 @@ class Getter{
             URLConnection uc = url.openConnection();
             uc.setRequestProperty("Accept-Language", "ja;q=0.7,en;q=0.3");
             uc.setRequestProperty("User-agent","Mozilla/5.0");
-            
+
             // HTML‚ğ“Ç‚İ‚Ş
             BufferedInputStream bis = new BufferedInputStream(uc.getInputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(bis, charset));
